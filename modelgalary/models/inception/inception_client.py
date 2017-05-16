@@ -18,7 +18,10 @@ from tensorflow_serving.apis import prediction_service_pb2
 
 def get_image(url):
     response = requests.get(url)
-    return response.content
+    image = misc.imread(io.BytesIO(response.content))
+    jpeg_bytes = io.BytesIO()
+    misc.imsave(jpeg_bytes, image, format='JPEG')
+    return jpeg_bytes.getvalue()
 
 
 def do_inference(url):
