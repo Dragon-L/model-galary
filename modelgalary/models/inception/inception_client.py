@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import sys
+import base64
 
 import io
 import requests
@@ -17,11 +17,12 @@ from tensorflow_serving.apis import prediction_service_pb2
 
 
 def get_image(url):
-    response = requests.get(url)
-    image = misc.imread(io.BytesIO(response.content))
+    img = requests.get(url)
+    img_b64 = 'data:image/png;base64,' + base64.b64encode(img.content).decode()
+    image = misc.imread(io.BytesIO(img.content))
     jpeg_bytes = io.BytesIO()
     misc.imsave(jpeg_bytes, image, format='JPEG')
-    return jpeg_bytes.getvalue()
+    return jpeg_bytes.getvalue(), img_b64
 
 
 def do_inference(url):
@@ -33,13 +34,17 @@ def do_inference(url):
     request.model_spec.name = 'inception'
     request.model_spec.signature_name = 'predict_images'
 
-    image = get_image(url)
+    image, image_b64 = get_image(url)
     request.inputs['images'].CopyFrom(
         tf.contrib.util.make_tensor_proto(image, shape=[1]))
 
     result = stub.Predict(request, 10.0)  # 10 seconds
-    result = dict(zip(
-        map(lambda byteStr: byteStr.decode(), list(result.outputs['classes'].string_val)),
-        list(result.outputs['scores'].float_val)
-    ))
-    return result
+    result = zip(
+        map(lambda byte_str: byte_str.decode(), list(result.outputs['classes'].string_val)),
+        map(float, list(result.outputs['scores'].float_val))
+    )
+    to_dict = lambda name_prob_tuple: {'name': name_prob_tuple[0], 'probability': name_prob_tuple[1]}
+    return {
+        'image_b64': image_b64,
+        'labels': list(map(to_dict, result))
+    }
