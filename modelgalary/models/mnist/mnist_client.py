@@ -1,10 +1,9 @@
 from __future__ import print_function
 
-import sys
-
 import io
 import requests
 from scipy import misc
+import base64
 
 # This is a placeholder for a Google-internal import.
 
@@ -18,9 +17,10 @@ from tensorflow_serving.apis import prediction_service_pb2
 
 def get_image(url):
     img = requests.get(url)
+    img_b64 = 'data:image/png;base64,' + base64.b64encode(img.content).decode()
     img = misc.imread(io.BytesIO(img.content), True)
     img = (misc.imresize(img, size=[28, 28]) / 255.0).astype(numpy.float32)
-    return img
+    return img, img_b64
 
 
 def do_inference(url):
@@ -32,7 +32,7 @@ def do_inference(url):
     request.model_spec.name = 'mnist'
     request.model_spec.signature_name = 'predict_images'
 
-    image = get_image(url)
+    image, image_b64 = get_image(url)
     request.inputs['images'].CopyFrom(
         tf.contrib.util.make_tensor_proto(image, shape=[1, image.size]))
 
@@ -41,4 +41,7 @@ def do_inference(url):
     response = numpy.array(result.outputs['scores'].float_val)
     prediction = numpy.argmax(response)
 
-    return prediction
+    return {
+        'label': int(prediction),
+        'image_b64': image_b64
+    }

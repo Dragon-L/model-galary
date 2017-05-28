@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 def index(request):
@@ -7,4 +7,4 @@ def index(request):
 
 def infer(request):
     from . import mnist_client
-    return HttpResponse(mnist_client.do_inference('http://localhost:8082/' + request.GET['url']))
+    return JsonResponse(mnist_client.do_inference(request.GET['url']))
