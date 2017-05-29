@@ -1,0 +1,7 @@
+from ubuntu:16.04
+
+RUN apt-get update && apt-get install -y docker.io git python3 curl
+RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
+RUN apt-get install -y nodejs
+
+CMD bash
