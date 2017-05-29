@@ -7,4 +7,4 @@ RUN cd /work/modelgalary && pip3 install -r requirements.txt
 WORKDIR /work/modelgalary
 ENV PYTHONPATH=./tf_serving
 
-CMD python3 manage.py runserver 8000
+CMD python3 manage.py runserver 0.0.0.0:8000
