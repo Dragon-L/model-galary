@@ -16,9 +16,9 @@ build-webapp:
 		mkdir work && cd work && \
 		git clone https://github.com/gmlove/model-galary-webapp.git && \
 		cd model-galary-webapp && \
-		echo ##Build Time## > public/info.txt && \
+		echo \#\#Build Time\#\# > public/info.txt && \
 		date >> public/info.txt && \
-		echo ##Commit## >> public/info.txt && \
+		echo \#\#Commit\#\# >> public/info.txt && \
 		git log | head -n 1 | cut -c8- >> public/info.txt && \
 		cat public/info.txt && \
 		npm install -g yarn && yarn install && yarn run build -- --release && \
