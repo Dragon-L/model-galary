@@ -3,6 +3,7 @@ build-http:
 		mkdir work && cd work && \
 		git clone https://github.com/gmlove/model-galary.git && \
 		cd model-galary/modelgalary && \
+		echo 'DEBUG = False' >> modelgalary/settings.py && \
 		echo \#\#Build Time\#\# > static/info.txt && \
 		date >> static/info.txt && \
 		echo \#\#Commit\#\# >> static/info.txt && \
