@@ -25,3 +25,8 @@ build-webapp:
 		npm install -g yarn && yarn install && yarn run build -- --release && \
 		docker build . -t modelgalary-webapp"'
 
+deploy-latest:
+	ssh ai02 'rm -rv /tmp/modelgalary; mkdir -v /tmp/modelgalary'
+	scp ../docker-compose.yml ai02:/tmp/modelgalary/
+	ssh ai02 'cd /tmp/modelgalary && docker-compose stop && docker-compose rm -f; docker-compose up -d'
+
