@@ -1,9 +1,9 @@
 from __future__ import print_function
 
-import base64
-
+import os
 import io
 import requests
+import base64
 from scipy import misc
 
 # This is a placeholder for a Google-internal import.
@@ -26,7 +26,8 @@ def get_image(url):
 
 
 def do_inference(url):
-    host, port = 'ai02:9001'.split(':')
+    mnist_serving_url = os.environ.get('INCEPTION_SERVING_URL', 'ai02:9001')
+    host, port = mnist_serving_url.split(':')
 
     channel = implementations.insecure_channel(host, int(port))
     stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)

@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import os
 import io
 import requests
 from scipy import misc
@@ -24,7 +25,8 @@ def get_image(url):
 
 
 def do_inference(url):
-    host, port = 'ai02:9000'.split(':')
+    mnist_serving_url = os.environ.get('MNIST_SERVING_URL', 'ai02:9000')
+    host, port = mnist_serving_url.split(':')
 
     channel = implementations.insecure_channel(host, int(port))
     stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
