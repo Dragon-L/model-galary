@@ -19,5 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^mnist/', include('models.mnist.urls')),
     url(r'^inception/', include('models.inception.urls')),
+    url(r'^watermark/', include('models.watermark.urls')),
     url(r'^admin/', admin.site.urls),
 ]
