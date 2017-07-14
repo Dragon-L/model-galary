@@ -1,19 +1,14 @@
-from __future__ import print_function
-
-import os
-import io
-import requests
 import base64
+import io
+import os
+
+import numpy
+import requests
+import tensorflow as tf
+from grpc.beta import implementations
 from scipy import misc
 
-# This is a placeholder for a Google-internal import.
-
-from grpc.beta import implementations
-import numpy
-import tensorflow as tf
-
-from tensorflow_serving.apis import predict_pb2
-from tensorflow_serving.apis import prediction_service_pb2
+from tensorflow_serving.apis import predict_pb2, prediction_service_pb2
 
 
 def get_image(url):
@@ -44,8 +39,13 @@ def do_inference(url):
         map(lambda byte_str: byte_str.decode(), list(result.outputs['classes'].string_val)),
         map(float, list(result.outputs['scores'].float_val))
     )
-    to_dict = lambda name_prob_tuple: {'name': name_prob_tuple[0], 'probability': name_prob_tuple[1]}
+
+    def to_dict(name_prob_tuple):
+        return {'name': name_prob_tuple[0], 'probability': name_prob_tuple[1]}
     return {
         'image_b64': image_b64,
         'labels': list(map(to_dict, result))
     }
+
+if __name__ == '__main__':
+    do_inference("http://10.205.8.110:28888/assets/inception/airplane.jpg")
