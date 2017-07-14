@@ -3,3 +3,4 @@
 **/*.pyc
 test-data/
 **/db.sqlite3
+.vscode
