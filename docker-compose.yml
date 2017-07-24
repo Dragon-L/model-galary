@@ -5,7 +5,7 @@ services:
     expose:
       - "8000"
     volumes:
-      - /data/ai02/gmliao/modelgalary/saved-models/mnist/mnist-export:/work
+      - /data/ai01/gmliao/modelgalary/saved-models/mnist/mnist-export:/work
     command: /tensorflow_model_server --port=8000 --model_name=mnist --model_base_path=/work
     deploy:
       restart_policy:
@@ -16,14 +16,25 @@ services:
     expose:
       - "8000"
     volumes:
-      - /data/ai02/gmliao/modelgalary/saved-models/inception/inception-export:/work
+      - /data/ai01/gmliao/modelgalary/saved-models/inception/inception-export:/work
     command: /tensorflow_model_server --port=8000 --model_name=inception --model_base_path=/work
     deploy:
       restart_policy:
         condition: on-failure
         max_attempts: 3
-  # Set the service name to a FQDN like name to fix django host verification which cannot be disabled.
-  # see https://docs.djangoproject.com/en/1.10/topics/security/#host-header-validation
+  watermark_serving:
+    image: twaiclub/tf-serving
+    expose:
+      - "8000"
+    volumes:
+      - /data/ai01/gmliao/modelgalary/saved-models/watermark/watermark-export:/work
+    command: /tensorflow_model_server --port=8000 --model_name=watermark --model_base_path=/work
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+  # Set the service name to a FQDN format name to fix django host verification which cannot be disabled.
+  # See https://docs.djangoproject.com/en/1.10/topics/security/#host-header-validation
   #   and https://docs.djangoproject.com/en/1.10/ref/settings/#allowed-hosts
   'serving-http.com':
     image: modelgalary-http
@@ -32,12 +43,14 @@ services:
     environment:
       - MNIST_SERVING_URL=mnist_serving:8000
       - INCEPTION_SERVING_URL=inception_serving:8000
+      - WATERMARK_SERVING_URL=watermark_serving:8000
     # the below is to fix django host verification,
     extra_hosts:
       - "serving-http.com:127.0.0.1"
     links:
       - mnist_serving
       - inception_serving
+      - watermark_serving
     deploy:
       restart_policy:
         condition: on-failure

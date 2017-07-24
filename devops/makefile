@@ -1,5 +1,7 @@
+TARGET_HOST=ai01
+
 build-http:
-	ssh ai02 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock docker-builder bash -c "\
+	ssh ${TARGET_HOST} 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock docker-builder bash -c "\
 		mkdir work && cd work && \
 		git clone https://github.com/gmlove/model-galary.git && \
 		cd model-galary/modelgalary && \
@@ -13,7 +15,7 @@ build-http:
 
 
 build-webapp:
-	ssh ai02 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock docker-builder bash -c "\
+	ssh ${TARGET_HOST} 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock docker-builder bash -c "\
 		mkdir work && cd work && \
 		git clone https://github.com/gmlove/model-galary-webapp.git && \
 		cd model-galary-webapp && \
@@ -26,7 +28,7 @@ build-webapp:
 		docker build . -t modelgalary-webapp"'
 
 deploy-latest:
-	ssh ai02 'rm -rv /tmp/modelgalary; mkdir -v /tmp/modelgalary'
-	scp ../docker-compose.yml ai02:/tmp/modelgalary/
-	ssh ai02 'cd /tmp/modelgalary && docker-compose stop && docker-compose rm -f; docker-compose up -d'
+	ssh ${TARGET_HOST} 'rm -rv /tmp/modelgalary; mkdir -v /tmp/modelgalary'
+	scp ../docker-compose.yml ${TARGET_HOST}:/tmp/modelgalary/
+	ssh ${TARGET_HOST} 'cd /tmp/modelgalary && docker-compose stop && docker-compose rm -f; docker-compose up -d'
 
