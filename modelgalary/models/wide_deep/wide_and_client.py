@@ -21,7 +21,7 @@ def _bytes_feature(value):
 
 
 def do_inference(query_map={}):
-    wide_and_deep_serving_url = os.environ.get('WIDE_AND_DEEP_SERVING_URL', 'ai03:8888')
+    wide_and_deep_serving_url = os.environ.get('WIDE_AND_DEEP_SERVING_URL', 'ai03:28888')
     host, port = wide_and_deep_serving_url.split(':')
 
     channel = implementations.insecure_channel(host, int(port))
