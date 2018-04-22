@@ -20,10 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='tensorflow_serving/apis/input.proto',
   package='tensorflow.serving',
   syntax='proto3',
-  serialized_pb=_b('\n#tensorflow_serving/apis/input.proto\x12\x12tensorflow.serving\x1a%tensorflow/core/example/example.proto\"4\n\x0b\x45xampleList\x12%\n\x08\x65xamples\x18\x01 \x03(\x0b\x32\x13.tensorflow.Example\"e\n\x16\x45xampleListWithContext\x12%\n\x08\x65xamples\x18\x01 \x03(\x0b\x32\x13.tensorflow.Example\x12$\n\x07\x63ontext\x18\x02 \x01(\x0b\x32\x13.tensorflow.Example\"\x99\x01\n\x05Input\x12\x37\n\x0c\x65xample_list\x18\x01 \x01(\x0b\x32\x1f.tensorflow.serving.ExampleListH\x00\x12O\n\x19\x65xample_list_with_context\x18\x02 \x01(\x0b\x32*.tensorflow.serving.ExampleListWithContextH\x00\x42\x06\n\x04kindB\x03\xf8\x01\x01\x62\x06proto3')
+  serialized_pb=_b('\n#tensorflow_serving/apis/input.proto\x12\x12tensorflow.serving\x1a%tensorflow/core/example/example.proto\"4\n\x0b\x45xampleList\x12%\n\x08\x65xamples\x18\x01 \x03(\x0b\x32\x13.tensorflow.Example\"e\n\x16\x45xampleListWithContext\x12%\n\x08\x65xamples\x18\x01 \x03(\x0b\x32\x13.tensorflow.Example\x12$\n\x07\x63ontext\x18\x02 \x01(\x0b\x32\x13.tensorflow.Example\"\xa1\x01\n\x05Input\x12;\n\x0c\x65xample_list\x18\x01 \x01(\x0b\x32\x1f.tensorflow.serving.ExampleListB\x02(\x01H\x00\x12S\n\x19\x65xample_list_with_context\x18\x02 \x01(\x0b\x32*.tensorflow.serving.ExampleListWithContextB\x02(\x01H\x00\x42\x06\n\x04kindB\x03\xf8\x01\x01\x62\x06proto3')
   ,
   dependencies=[tensorflow_dot_core_dot_example_dot_example__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,7 +40,7 @@ _EXAMPLELIST = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -72,14 +71,14 @@ _EXAMPLELISTWITHCONTEXT = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='context', full_name='tensorflow.serving.ExampleListWithContext.context', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -110,14 +109,14 @@ _INPUT = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=_descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('(\001')), file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='example_list_with_context', full_name='tensorflow.serving.Input.example_list_with_context', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=_descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('(\001')), file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -134,7 +133,7 @@ _INPUT = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=256,
-  serialized_end=409,
+  serialized_end=417,
 )
 
 _EXAMPLELIST.fields_by_name['examples'].message_type = tensorflow_dot_core_dot_example_dot_example__pb2._EXAMPLE
@@ -151,6 +150,7 @@ _INPUT.fields_by_name['example_list_with_context'].containing_oneof = _INPUT.one
 DESCRIPTOR.message_types_by_name['ExampleList'] = _EXAMPLELIST
 DESCRIPTOR.message_types_by_name['ExampleListWithContext'] = _EXAMPLELISTWITHCONTEXT
 DESCRIPTOR.message_types_by_name['Input'] = _INPUT
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ExampleList = _reflection.GeneratedProtocolMessageType('ExampleList', (_message.Message,), dict(
   DESCRIPTOR = _EXAMPLELIST,
@@ -176,4 +176,8 @@ _sym_db.RegisterMessage(Input)
 
 DESCRIPTOR.has_options = True
 DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\370\001\001'))
+_INPUT.fields_by_name['example_list'].has_options = True
+_INPUT.fields_by_name['example_list']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('(\001'))
+_INPUT.fields_by_name['example_list_with_context'].has_options = True
+_INPUT.fields_by_name['example_list_with_context']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('(\001'))
 # @@protoc_insertion_point(module_scope)
